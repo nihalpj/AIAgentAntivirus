@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as fs from 'fs-extra';
 import { FileFilter, FilterOptions } from './file-filter';
 import { PlatformPathDetector } from './platform-paths';
 
@@ -49,11 +50,11 @@ export class FileWalker {
       );
     }
 
-    return await this.platformDetector.detectExistingPaths('all');
+    const existingPaths = await this.platformDetector.detectExistingPaths('all');
+    return existingPaths.length > 0 ? existingPaths : [process.cwd()];
   }
 
   private async walkDirectory(dirPath: string): Promise<FileEntry[]> {
-    const fs = await import('fs-extra');
     const files: FileEntry[] = [];
 
     try {

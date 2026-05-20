@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as micromatch from 'micromatch';
+import * as fs from 'fs-extra';
 
 export interface FilterOptions {
   extensions?: string[];
@@ -33,7 +34,6 @@ export class FileFilter {
       return false;
     }
 
-    const fs = await import('fs-extra');
     const stats = await fs.stat(filePath);
 
     if (stats.size > this.maxSizeBytes) {

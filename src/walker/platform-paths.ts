@@ -1,5 +1,6 @@
 import * as os from 'os';
 import * as path from 'path';
+import * as fs from 'fs-extra';
 
 export type Platform =
   | 'claude'
@@ -113,7 +114,6 @@ export class PlatformPathDetector {
   }
 
   async detectExistingPaths(platformFilter: Platform = 'all'): Promise<string[]> {
-    const fs = await import('fs-extra');
     const paths = this.getPlatformPaths(platformFilter);
     const existing: string[] = [];
 

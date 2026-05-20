@@ -1,0 +1,68 @@
+import { Command } from 'commander';
+import * as fs from 'fs-extra';
+import { FileWalker } from '../walker/file-walker';
+import { PatternScanner } from '../scanners/pattern-scanner';
+import { ResultAggregator } from '../core/result';
+import { ConsoleFormatter } from '../formatters/console-formatter';
+
+export const scanCommand = new Command('scan')
+  .description('Scan AI agent files for security threats')
+  .argument('[path]', 'Path to scan (default: auto-detect platform paths)')
+  .option('--platform <name>', 'Target platform (claude, openai, google, cursor, all)', 'all')
+  .option('--ext <extensions>', 'File extensions (comma-separated)', 'json,py,js,ts,jsx,tsx,md')
+  .option('--exclude <patterns>', 'Exclude patterns (comma-separated)', '')
+  .option('--format <type>', 'Output format: console, json, html, sarif', 'console')
+  .option('--verbose', 'Enable verbose logging', false)
+  .option('--workers <number>', 'Number of parallel workers', String(require('os').cpus().length))
+  .action(async (path, options) => {
+    const startTime = Date.now();
+
+    try {
+      const extensions = options.ext.split(',').map((e: string) => e.trim());
+      const excludePatterns = options.exclude
+        ? options.exclude.split(',').map((e: string) => e.trim())
+        : undefined;
+
+      const walker = new FileWalker({
+        platform: options.platform,
+        extensions,
+        excludePatterns
+      });
+
+      if (options.verbose) {
+        console.log(`Scanning path: ${path || 'auto-detected'}`);
+      }
+
+      const files = await walker.walk(path);
+
+      if (options.verbose) {
+        console.log(`Found ${files.length} files to scan`);
+      }
+
+      const scanner = new PatternScanner();
+      const aggregator = new ResultAggregator();
+
+      for (const file of files) {
+        const content = await fs.readFile(file.path, 'utf-8');
+        const results = await scanner.scan(file.path, content);
+        aggregator.addAll(results);
+
+        if (options.verbose) {
+          console.log(`Scanned: ${file.path} - ${results.length} issues`);
+        }
+      }
+
+      const duration = Date.now() - startTime;
+      const summary = aggregator.getSummary(files.length, duration);
+
+      const formatter = new ConsoleFormatter();
+      const output = formatter.formatResults(aggregator.getResults(), summary);
+
+      console.log(output);
+
+      process.exit(aggregator.getExitCode());
+    } catch (error) {
+      console.error('Scan failed:', error);
+      process.exit(2);
+    }
+  });
