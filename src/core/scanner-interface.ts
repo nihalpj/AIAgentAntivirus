@@ -22,7 +22,7 @@ export enum ScannerType {
   Pattern = 'pattern',
   AST = 'ast',
   LLM = 'llm',
-  Hybrid = 'hybrid'
+  Hybrid = 'hybrid',
 }
 
 export enum ThreatCategory {
@@ -34,5 +34,5 @@ export enum ThreatCategory {
   SocialEngineering = 'social-engineering',
   DataExfiltration = 'data-exfiltration',
   ResourceAbuse = 'resource-abuse',
-  Other = 'other'
+  Other = 'other',
 }

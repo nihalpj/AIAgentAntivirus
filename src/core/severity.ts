@@ -3,7 +3,7 @@ export enum Severity {
   Low = 'low',
   Medium = 'medium',
   High = 'high',
-  Critical = 'critical'
+  Critical = 'critical',
 }
 
 export interface SeverityConfig {
@@ -17,7 +17,7 @@ export const SEVERITY_CONFIGS: Record<Severity, SeverityConfig> = {
   [Severity.Low]: { score: 2, color: 'cyan', icon: '⚠' },
   [Severity.Medium]: { score: 3, color: 'yellow', icon: '⚠' },
   [Severity.High]: { score: 4, color: 'orange', icon: '🔴' },
-  [Severity.Critical]: { score: 5, color: 'red', icon: '🚨' }
+  [Severity.Critical]: { score: 5, color: 'red', icon: '🚨' },
 };
 
 export function getSeverityConfig(severity: Severity): SeverityConfig {

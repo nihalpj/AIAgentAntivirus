@@ -39,12 +39,12 @@ export class ResultAggregator {
       totalIssuesFound: this.results.length,
       issuesBySeverity,
       issuesByCategory,
-      scanDurationMs: durationMs
+      scanDurationMs: durationMs,
     };
   }
 
   getExitCode(): number {
-    if (this.results.some(r => r.severity === Severity.Critical)) {
+    if (this.results.some((r) => r.severity === Severity.Critical)) {
       return 2;
     }
     if (this.results.length > 0) {
@@ -59,7 +59,7 @@ export class ResultAggregator {
       [Severity.Low]: 0,
       [Severity.Medium]: 0,
       [Severity.High]: 0,
-      [Severity.Critical]: 0
+      [Severity.Critical]: 0,
     };
 
     for (const result of this.results) {
@@ -70,9 +70,12 @@ export class ResultAggregator {
   }
 
   private groupByCategory(): Record<string, number> {
-    return this.results.reduce((acc, result) => {
-      acc[result.category] = (acc[result.category] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    return this.results.reduce(
+      (acc, result) => {
+        acc[result.category] = (acc[result.category] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
   }
 }
