@@ -6,31 +6,31 @@ describe('Severity', () => {
       expect(getSeverityConfig(Severity.Info)).toEqual({
         score: 1,
         color: 'blue',
-        icon: 'ℹ'
+        icon: 'ℹ',
       });
 
       expect(getSeverityConfig(Severity.Low)).toEqual({
         score: 2,
         color: 'cyan',
-        icon: '⚠'
+        icon: '⚠',
       });
 
       expect(getSeverityConfig(Severity.Medium)).toEqual({
         score: 3,
         color: 'yellow',
-        icon: '⚠'
+        icon: '⚠',
       });
 
       expect(getSeverityConfig(Severity.High)).toEqual({
         score: 4,
         color: 'orange',
-        icon: '🔴'
+        icon: '🔴',
       });
 
       expect(getSeverityConfig(Severity.Critical)).toEqual({
         score: 5,
         color: 'red',
-        icon: '🚨'
+        icon: '🚨',
       });
     });
   });
