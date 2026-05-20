@@ -4,7 +4,7 @@ import { Severity } from './severity';
 export interface ScanSummary {
   totalFilesScanned: number;
   totalIssuesFound: number;
-  issuesBySeverity: Partial<Record<Severity, number>>;
+  issuesBySeverity: Record<Severity, number>;
   issuesByCategory: Record<string, number>;
   scanDurationMs: number;
 }
@@ -53,12 +53,20 @@ export class ResultAggregator {
     return 0;
   }
 
-  private groupBySeverity(): Record<string, number> {
-    return this.results.reduce((acc, result) => {
-      const severity = result.severity as string;
-      acc[severity] = (acc[severity] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+  private groupBySeverity(): Record<Severity, number> {
+    const counts: Record<Severity, number> = {
+      [Severity.Info]: 0,
+      [Severity.Low]: 0,
+      [Severity.Medium]: 0,
+      [Severity.High]: 0,
+      [Severity.Critical]: 0
+    };
+
+    for (const result of this.results) {
+      counts[result.severity]++;
+    }
+
+    return counts;
   }
 
   private groupByCategory(): Record<string, number> {
