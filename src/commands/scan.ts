@@ -6,6 +6,10 @@ import { PatternScanner } from '../scanners/pattern-scanner';
 import { ScannerEngine } from '../core/scanner-engine';
 import { ASTScanner } from '../scanners/ast-scanner';
 import { ConsoleFormatter } from '../formatters/console-formatter';
+import { JSONFormatter } from '../formatters/json-formatter';
+import { HTMLFormatter } from '../formatters/html-formatter';
+import { SARIFFormatter } from '../formatters/sarif-formatter';
+import { Formatter } from '../formatters/formatter-interface';
 
 export const scanCommand = new Command('scan')
   .description('Scan AI agent files for security threats')
@@ -62,7 +66,20 @@ export const scanCommand = new Command('scan')
       const duration = Date.now() - startTime;
       const summary = aggregator.getSummary(files.length, duration);
 
-      const formatter = new ConsoleFormatter();
+      let formatter: Formatter;
+      switch (options.format) {
+        case 'json':
+          formatter = new JSONFormatter();
+          break;
+        case 'html':
+          formatter = new HTMLFormatter();
+          break;
+        case 'sarif':
+          formatter = new SARIFFormatter();
+          break;
+        default:
+          formatter = new ConsoleFormatter();
+      }
       const output = formatter.formatResults(scanResult.results, summary);
 
       console.log(output);
