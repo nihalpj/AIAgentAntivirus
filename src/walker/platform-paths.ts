@@ -2,13 +2,7 @@ import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 
-export type Platform =
-  | 'claude'
-  | 'openai'
-  | 'google'
-  | 'cursor'
-  | 'vscode'
-  | 'all';
+export type Platform = 'claude' | 'openai' | 'google' | 'cursor' | 'vscode' | 'all';
 
 export interface PlatformPath {
   platform: Platform;
@@ -20,7 +14,7 @@ const LINUX_PLATFORM_PATHS: PlatformPath[] = [
   { platform: 'openai', paths: ['~/.config/openai', '~/.openai'] },
   { platform: 'google', paths: ['~/.config/google', '~/.config/gemini', '~/.local/share/google'] },
   { platform: 'cursor', paths: ['~/.cursor/extensions'] },
-  { platform: 'vscode', paths: ['~/.vscode/extensions', '~/.config/Code/User'] }
+  { platform: 'vscode', paths: ['~/.vscode/extensions', '~/.config/Code/User'] },
 ];
 
 const WINDOWS_PLATFORM_PATHS: PlatformPath[] = [
@@ -29,34 +23,25 @@ const WINDOWS_PLATFORM_PATHS: PlatformPath[] = [
     paths: [
       '%USERPROFILE%\\AppData\\Roaming\\Claude',
       '%USERPROFILE%\\AppData\\Roaming\\anthropic',
-      '%USERPROFILE%\\.claude'
-    ]
+      '%USERPROFILE%\\.claude',
+    ],
   },
   {
     platform: 'openai',
-    paths: [
-      '%USERPROFILE%\\AppData\\Roaming\\openai',
-      '%USERPROFILE%\\.openai'
-    ]
+    paths: ['%USERPROFILE%\\AppData\\Roaming\\openai', '%USERPROFILE%\\.openai'],
   },
   {
     platform: 'google',
-    paths: [
-      '%USERPROFILE%\\AppData\\Roaming\\google',
-      '%USERPROFILE%\\AppData\\Local\\google'
-    ]
+    paths: ['%USERPROFILE%\\AppData\\Roaming\\google', '%USERPROFILE%\\AppData\\Local\\google'],
   },
   {
     platform: 'cursor',
-    paths: ['%USERPROFILE%\\.cursor\\extensions']
+    paths: ['%USERPROFILE%\\.cursor\\extensions'],
   },
   {
     platform: 'vscode',
-    paths: [
-      '%USERPROFILE%\\.vscode\\extensions',
-      '%USERPROFILE%\\AppData\\Roaming\\Code\\User'
-    ]
-  }
+    paths: ['%USERPROFILE%\\.vscode\\extensions', '%USERPROFILE%\\AppData\\Roaming\\Code\\User'],
+  },
 ];
 
 const DARWIN_PLATFORM_PATHS: PlatformPath[] = [
@@ -64,7 +49,10 @@ const DARWIN_PLATFORM_PATHS: PlatformPath[] = [
   { platform: 'openai', paths: ['~/Library/Application Support/OpenAI'] },
   { platform: 'google', paths: ['~/Library/Application Support/Google'] },
   { platform: 'cursor', paths: ['~/.cursor/extensions'] },
-  { platform: 'vscode', paths: ['~/.vscode/extensions', '~/Library/Application Support/Code/User'] }
+  {
+    platform: 'vscode',
+    paths: ['~/.vscode/extensions', '~/Library/Application Support/Code/User'],
+  },
 ];
 
 export class PlatformPathDetector {
@@ -83,7 +71,7 @@ export class PlatformPathDetector {
       return this.expandPaths(allPaths);
     }
 
-    const filtered = allPaths.filter(p => p.platform === platformFilter);
+    const filtered = allPaths.filter((p) => p.platform === platformFilter);
     return this.expandPaths(filtered);
   }
 
@@ -99,9 +87,7 @@ export class PlatformPathDetector {
   }
 
   private expandPaths(platformPaths: PlatformPath[]): string[] {
-    return platformPaths.flatMap(pp =>
-      pp.paths.map(p => this.expandPath(p))
-    );
+    return platformPaths.flatMap((pp) => pp.paths.map((p) => this.expandPath(p)));
   }
 
   private expandPath(rawPath: string): string {

@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import * as fs from 'fs-extra';
+import * as os from 'os';
 import { FileWalker } from '../walker/file-walker';
 import { PatternScanner } from '../scanners/pattern-scanner';
 import { ScannerEngine } from '../core/scanner-engine';
@@ -14,7 +15,7 @@ export const scanCommand = new Command('scan')
   .option('--exclude <patterns>', 'Exclude patterns (comma-separated)', '')
   .option('--format <type>', 'Output format: console, json, html, sarif', 'console')
   .option('--verbose', 'Enable verbose logging', false)
-  .option('--workers <number>', 'Number of parallel workers', String(require('os').cpus().length))
+  .option('--workers <number>', 'Number of parallel workers', String(os.cpus().length))
   .action(async (path, options) => {
     const startTime = Date.now();
 
@@ -27,7 +28,7 @@ export const scanCommand = new Command('scan')
       const walker = new FileWalker({
         platform: options.platform,
         extensions,
-        excludePatterns
+        excludePatterns,
       });
 
       if (options.verbose) {
@@ -49,6 +50,10 @@ export const scanCommand = new Command('scan')
       for (const file of files) {
         const content = await fs.readFile(file.path, 'utf-8');
         results.push({ path: file.path, content });
+
+        if (options.verbose) {
+          console.log(`Scanned: ${file.path}`);
+        }
       }
 
       const scanResult = await engine.scanFiles(results);

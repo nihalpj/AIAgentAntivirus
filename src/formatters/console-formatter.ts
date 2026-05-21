@@ -63,11 +63,7 @@ export class ConsoleFormatter implements Formatter {
     return colored;
   }
 
-  formatSimpleSummary(
-    filesScanned: number,
-    issuesFound: number,
-    durationMs: number
-  ): string {
+  formatSimpleSummary(filesScanned: number, issuesFound: number, durationMs: number): string {
     const duration = (durationMs / 1000).toFixed(2);
     return this.format(
       `\n${chalk.bold.cyan('=== Scan Summary ===')}\n` +
@@ -77,12 +73,7 @@ export class ConsoleFormatter implements Formatter {
     );
   }
 
-  formatIssue(
-    file: string,
-    line: number,
-    severity: string,
-    message: string
-  ): string {
+  formatIssue(file: string, line: number, severity: string, message: string): string {
     const severityUpper = severity.toUpperCase();
     let severityColor: (text: string) => string;
 
@@ -106,9 +97,7 @@ export class ConsoleFormatter implements Formatter {
         severityColor = chalk.white.bold;
     }
 
-    const fileLocation = this.useColors
-      ? chalk.gray(`${file}:${line}`)
-      : `${file}:${line}`;
+    const fileLocation = this.useColors ? chalk.gray(`${file}:${line}`) : `${file}:${line}`;
 
     const severityLabel = this.useColors
       ? severityColor(`[${severityUpper}]`)
@@ -149,7 +138,7 @@ export class ConsoleFormatter implements Formatter {
     const lines = [
       `${color(config.icon)} ${result.category} [${result.severity.toUpperCase()}]`,
       chalk.gray(`  ${result.filePath}:${result.lineNumber}`),
-      chalk.white(`  ${result.description}`)
+      chalk.white(`  ${result.description}`),
     ];
 
     if (result.evidence) {
@@ -189,12 +178,18 @@ export class ConsoleFormatter implements Formatter {
 
   private getChalkColor(color: string): chalk.Chalk {
     switch (color) {
-      case 'red': return chalk.red;
-      case 'orange': return chalk.hex('#FFA500');
-      case 'yellow': return chalk.yellow;
-      case 'cyan': return chalk.cyan;
-      case 'blue': return chalk.blue;
-      default: return chalk.white;
+      case 'red':
+        return chalk.red;
+      case 'orange':
+        return chalk.hex('#FFA500');
+      case 'yellow':
+        return chalk.yellow;
+      case 'cyan':
+        return chalk.cyan;
+      case 'blue':
+        return chalk.blue;
+      default:
+        return chalk.white;
     }
   }
 

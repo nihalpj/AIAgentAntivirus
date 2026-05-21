@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import * as micromatch from 'micromatch';
 import { FileFilter, FilterOptions } from './file-filter';
 import { PlatformPathDetector } from './platform-paths';
 
@@ -25,9 +26,7 @@ export class FileWalker {
   }
 
   async walk(targetPath?: string): Promise<FileEntry[]> {
-    const pathsToScan = targetPath
-      ? [targetPath]
-      : await this.resolvePaths();
+    const pathsToScan = targetPath ? [targetPath] : await this.resolvePaths();
 
     const files: FileEntry[] = [];
 
@@ -45,9 +44,7 @@ export class FileWalker {
     }
 
     if (this.options.platform && this.options.platform !== 'all') {
-      return this.platformDetector.getPlatformPaths(
-        this.options.platform as any
-      );
+      return this.platformDetector.getPlatformPaths(this.options.platform as any);
     }
 
     const existingPaths = await this.platformDetector.detectExistingPaths('all');
@@ -73,7 +70,7 @@ export class FileWalker {
           files.push({
             path: fullPath,
             relativePath: path.relative(process.cwd(), fullPath),
-            size: stats.size
+            size: stats.size,
           });
         }
       }
@@ -96,7 +93,7 @@ export class FileWalker {
       '.nuxt',
       'target',
       'bin',
-      'obj'
+      'obj',
     ]);
 
     if (skipDirs.has(baseName)) {
@@ -104,7 +101,6 @@ export class FileWalker {
     }
 
     if (this.options.excludePatterns) {
-      const micromatch = require('micromatch');
       return micromatch.isMatch(dirPath, this.options.excludePatterns);
     }
 
@@ -113,7 +109,7 @@ export class FileWalker {
 
   private deduplicateFiles(files: FileEntry[]): FileEntry[] {
     const seen = new Set<string>();
-    return files.filter(f => {
+    return files.filter((f) => {
       if (seen.has(f.path)) {
         return false;
       }

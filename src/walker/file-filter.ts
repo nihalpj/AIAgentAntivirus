@@ -15,7 +15,7 @@ export class FileFilter {
 
   constructor(options: FilterOptions = {}) {
     this.allowedExtensions = new Set(
-      (options.extensions || ['json', 'py', 'js', 'ts', 'jsx', 'tsx', 'md']).map(ext =>
+      (options.extensions || ['json', 'py', 'js', 'ts', 'jsx', 'tsx', 'md']).map((ext) =>
         ext.startsWith('.') ? ext : `.${ext}`
       )
     );

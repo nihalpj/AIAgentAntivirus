@@ -19,22 +19,22 @@ export class ASTScanner implements Scanner {
       name: 'eval() function call',
       category: ThreatCategory.UnsafeExecution,
       severity: Severity.High,
-      check: (ast, filePath) => this.checkEvalUsage(ast, filePath)
+      check: (ast, filePath) => this.checkEvalUsage(ast, filePath),
     },
     {
       id: 'ast-dangerous-import',
       name: 'Dynamic import with variable',
       category: ThreatCategory.UnsafeExecution,
       severity: Severity.High,
-      check: (ast, filePath) => this.checkDynamicImport(ast, filePath)
+      check: (ast, filePath) => this.checkDynamicImport(ast, filePath),
     },
     {
       id: 'ast-prototype-pollution',
       name: 'Prototype pollution risk',
       category: ThreatCategory.MaliciousCommand,
       severity: Severity.Critical,
-      check: (ast, filePath) => this.checkPrototypePollution(ast, filePath)
-    }
+      check: (ast, filePath) => this.checkPrototypePollution(ast, filePath),
+    },
   ];
 
   async scan(filePath: string, content: string): Promise<ScanResult[]> {
@@ -103,7 +103,7 @@ export class ASTScanner implements Scanner {
             description: 'Use of eval() detected',
             evidence: node.text,
             suggestion: 'Avoid eval() - use safer alternatives',
-            scannerType: this.type
+            scannerType: this.type,
           });
         }
       }
@@ -136,7 +136,7 @@ export class ASTScanner implements Scanner {
             description: 'Dynamic import with variable detected',
             evidence: text,
             suggestion: 'Validate module paths before dynamic imports',
-            scannerType: this.type
+            scannerType: this.type,
           });
         }
       }
@@ -169,7 +169,7 @@ export class ASTScanner implements Scanner {
             description: 'Prototype pollution risk detected',
             evidence: text,
             suggestion: 'Validate object keys and avoid direct prototype access',
-            scannerType: this.type
+            scannerType: this.type,
           });
         }
       }

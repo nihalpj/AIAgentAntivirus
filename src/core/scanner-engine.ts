@@ -26,14 +26,15 @@ export class ScannerEngine {
     files: Array<{ path: string; content: string }>,
     options: ScannerEngineOptions = {}
   ): Promise<{ results: ScanResult[]; exitCode: number }> {
-    const enabledTypes = options.enabledScanners || this.enabledScanners || Array.from(this.scanners.keys());
-    const filesToScan = files.filter(f => f);
+    const enabledTypes =
+      options.enabledScanners || this.enabledScanners || Array.from(this.scanners.keys());
+    const filesToScan = files.filter((f) => f);
 
     await this.processFiles(filesToScan, enabledTypes);
 
     return {
       results: this.aggregator.getResults(),
-      exitCode: this.aggregator.getExitCode()
+      exitCode: this.aggregator.getExitCode(),
     };
   }
 
@@ -47,9 +48,7 @@ export class ScannerEngine {
       }
     } else {
       const chunks = this.chunkArray(files, Math.ceil(files.length / this.parallelism));
-      await Promise.all(
-        chunks.map(chunk => this.processChunk(chunk, enabledTypes))
-      );
+      await Promise.all(chunks.map((chunk) => this.processChunk(chunk, enabledTypes)));
     }
   }
 
