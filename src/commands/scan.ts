@@ -2,7 +2,8 @@ import { Command } from 'commander';
 import * as fs from 'fs-extra';
 import { FileWalker } from '../walker/file-walker';
 import { PatternScanner } from '../scanners/pattern-scanner';
-import { ResultAggregator } from '../core/result';
+import { ScannerEngine } from '../core/scanner-engine';
+import { ASTScanner } from '../scanners/ast-scanner';
 import { ConsoleFormatter } from '../formatters/console-formatter';
 
 export const scanCommand = new Command('scan')
@@ -39,28 +40,29 @@ export const scanCommand = new Command('scan')
         console.log(`Found ${files.length} files to scan`);
       }
 
-      const scanner = new PatternScanner();
-      const aggregator = new ResultAggregator();
+      const engine = new ScannerEngine({ parallelism: parseInt(options.workers) });
+      engine.registerScanner(new PatternScanner());
+      engine.registerScanner(new ASTScanner());
+
+      const results: Array<{ path: string; content: string }> = [];
 
       for (const file of files) {
         const content = await fs.readFile(file.path, 'utf-8');
-        const results = await scanner.scan(file.path, content);
-        aggregator.addAll(results);
-
-        if (options.verbose) {
-          console.log(`Scanned: ${file.path} - ${results.length} issues`);
-        }
+        results.push({ path: file.path, content });
       }
+
+      const scanResult = await engine.scanFiles(results);
+      const aggregator = engine.getAggregator();
 
       const duration = Date.now() - startTime;
       const summary = aggregator.getSummary(files.length, duration);
 
       const formatter = new ConsoleFormatter();
-      const output = formatter.formatResults(aggregator.getResults(), summary);
+      const output = formatter.formatResults(scanResult.results, summary);
 
       console.log(output);
 
-      process.exit(aggregator.getExitCode());
+      process.exit(scanResult.exitCode);
     } catch (error) {
       console.error('Scan failed:', error);
       process.exit(2);
