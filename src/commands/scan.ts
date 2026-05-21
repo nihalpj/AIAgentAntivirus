@@ -69,10 +69,7 @@ export const scanCommand = new Command('scan')
         }
 
         // Check if API key is configured
-        const envVar =
-          options.llmProvider === 'anthropic'
-            ? 'ANTHROPIC_API_KEY'
-            : 'OPENAI_API_KEY';
+        const envVar = options.llmProvider === 'anthropic' ? 'ANTHROPIC_API_KEY' : 'OPENAI_API_KEY';
 
         if (!process.env[envVar] && !options.llmApiKey) {
           console.warn(

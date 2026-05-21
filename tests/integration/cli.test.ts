@@ -26,7 +26,7 @@ describe('CLI Integration Tests', () => {
     it('should scan a directory with JSON files', async () => {
       const testFile = path.join(tempDir, 'test.json');
       await fs.writeJson(testFile, {
-        apiKey: 'sk-1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdef'
+        apiKey: 'sk-1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdef',
       });
 
       let output = '';

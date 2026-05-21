@@ -111,7 +111,7 @@ describe('FileFilter', () => {
       await fs.writeFile(path.join(testDir, 'prod.js'), '// prod file');
 
       const filter = new FileFilter({
-        excludePatterns: ['**/test.js']
+        excludePatterns: ['**/test.js'],
       });
 
       const testResult = await filter.shouldInclude(path.join(testDir, 'test.js'));
@@ -126,7 +126,7 @@ describe('FileFilter', () => {
       await fs.writeFile(path.join(testDir, 'file.prod.js'), '// prod file');
 
       const filter = new FileFilter({
-        excludePatterns: ['**/*.test.js']
+        excludePatterns: ['**/*.test.js'],
       });
 
       const testResult = await filter.shouldInclude(path.join(testDir, 'file.test.js'));
@@ -142,7 +142,7 @@ describe('FileFilter', () => {
       await fs.writeFile(path.join(nodeModulesDir, 'index.js'), '// library file');
 
       const filter = new FileFilter({
-        excludePatterns: ['**/node_modules/**']
+        excludePatterns: ['**/node_modules/**'],
       });
 
       const result = await filter.shouldInclude(path.join(nodeModulesDir, 'index.js'));
@@ -155,7 +155,7 @@ describe('FileFilter', () => {
       await fs.writeFile(path.join(testDir, 'file.prod.js'), '// prod file');
 
       const filter = new FileFilter({
-        excludePatterns: ['**/*.test.js', '**/*.spec.js']
+        excludePatterns: ['**/*.test.js', '**/*.spec.js'],
       });
 
       const testResult = await filter.shouldInclude(path.join(testDir, 'file.test.js'));
@@ -243,7 +243,7 @@ describe('FileFilter', () => {
       const filter = new FileFilter({
         extensions: ['js'],
         excludePatterns: ['**/*.test.js'],
-        maxSizeMB: 10
+        maxSizeMB: 10,
       });
 
       const result = await filter.shouldInclude(path.join(testDir, 'large.test.js'));
@@ -257,7 +257,7 @@ describe('FileFilter', () => {
       const filter = new FileFilter({
         extensions: ['js'],
         excludePatterns: [],
-        maxSizeMB: 10
+        maxSizeMB: 10,
       });
 
       const result = await filter.shouldInclude(path.join(testDir, 'valid.js'));
@@ -280,7 +280,7 @@ describe('FileFilter', () => {
 
       const filter = new FileFilter({
         extensions: ['js'],
-        excludePatterns: ['**/*.test.js']
+        excludePatterns: ['**/*.test.js'],
       });
 
       const result = await filter.shouldInclude(path.join(testDir, 'file.test.js'));
@@ -293,7 +293,7 @@ describe('FileFilter', () => {
 
       const filter = new FileFilter({
         extensions: ['js'],
-        maxSizeMB: 10
+        maxSizeMB: 10,
       });
 
       const result = await filter.shouldInclude(path.join(testDir, 'large.js'));

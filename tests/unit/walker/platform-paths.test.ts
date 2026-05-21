@@ -31,7 +31,7 @@ describe('PlatformPathDetector', () => {
     it('should expand ~ to home directory', () => {
       const paths = detector.getPlatformPaths('claude');
       expect(paths).not.toContain('~');
-      expect(paths.some(p => p.startsWith('/home/user'))).toBe(true);
+      expect(paths.some((p) => p.startsWith('/home/user'))).toBe(true);
     });
 
     it('should handle Windows paths', () => {

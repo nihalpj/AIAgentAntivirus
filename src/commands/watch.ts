@@ -80,7 +80,7 @@ export const watchCommand = new Command('watch')
     const alertSystem = new AlertSystem({
       enabled: !!options.webhook,
       webhookUrl: options.webhook,
-      webhookMethod: options.webhookMethod as 'POST' | 'PUT'
+      webhookMethod: options.webhookMethod as 'POST' | 'PUT',
     });
 
     const watcher = new FileWatcher();
@@ -118,7 +118,7 @@ export const watchCommand = new Command('watch')
           files.map(async (f) => {
             return {
               path: f.path,
-              content: await fs.readFile(f.path, 'utf-8')
+              content: await fs.readFile(f.path, 'utf-8'),
             };
           })
         );
@@ -137,7 +137,7 @@ export const watchCommand = new Command('watch')
               filePath: r.filePath,
               severity: r.severity,
               category: r.category,
-              description: r.description
+              description: r.description,
             });
           }
         } else if (options.verbose) {
@@ -155,7 +155,7 @@ export const watchCommand = new Command('watch')
     // Set up file watcher
     watcher.watch(path, {
       usePolling: options.polling,
-      interval: parseInt(options.interval)
+      interval: parseInt(options.interval),
     });
 
     watcher.on('change', async (filePath) => {

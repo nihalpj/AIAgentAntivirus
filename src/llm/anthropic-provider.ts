@@ -59,9 +59,10 @@ export class AnthropicProvider implements LLMProvider {
       throw new Error('Anthropic API key not configured');
     }
 
-    const prompt = SCAN_PROMPT
-      .replace('{{filePath}}', filePath)
-      .replace('{{content}}', content.substring(0, 10000));
+    const prompt = SCAN_PROMPT.replace('{{filePath}}', filePath).replace(
+      '{{content}}',
+      content.substring(0, 10000)
+    );
 
     try {
       const response = await this.client.messages.create({

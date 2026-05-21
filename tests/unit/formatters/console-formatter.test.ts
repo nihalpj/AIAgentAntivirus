@@ -119,9 +119,7 @@ describe('ConsoleFormatter', () => {
     });
 
     it('should handle multiple markers in one message', () => {
-      const result = formatter.format(
-        '[INFO] Starting scan... [SUCCESS] Scan complete'
-      );
+      const result = formatter.format('[INFO] Starting scan... [SUCCESS] Scan complete');
       expect(result).toContain('[INFO]');
       expect(result).toContain('[SUCCESS]');
     });
@@ -156,72 +154,42 @@ describe('ConsoleFormatter', () => {
 
   describe('formatIssue', () => {
     it('should format an issue with critical severity', () => {
-      const result = formatter.formatIssue(
-        'test.ts',
-        10,
-        'Critical',
-        'Critical issue detected'
-      );
+      const result = formatter.formatIssue('test.ts', 10, 'Critical', 'Critical issue detected');
       expect(result).toContain('test.ts:10');
       expect(result).toContain('[CRITICAL]');
       expect(result).toContain('Critical issue detected');
     });
 
     it('should format an issue with high severity', () => {
-      const result = formatter.formatIssue(
-        'test.ts',
-        20,
-        'High',
-        'High severity issue'
-      );
+      const result = formatter.formatIssue('test.ts', 20, 'High', 'High severity issue');
       expect(result).toContain('test.ts:20');
       expect(result).toContain('[HIGH]');
       expect(result).toContain('High severity issue');
     });
 
     it('should format an issue with medium severity', () => {
-      const result = formatter.formatIssue(
-        'test.ts',
-        30,
-        'Medium',
-        'Medium severity issue'
-      );
+      const result = formatter.formatIssue('test.ts', 30, 'Medium', 'Medium severity issue');
       expect(result).toContain('test.ts:30');
       expect(result).toContain('[MEDIUM]');
       expect(result).toContain('Medium severity issue');
     });
 
     it('should format an issue with low severity', () => {
-      const result = formatter.formatIssue(
-        'test.ts',
-        40,
-        'Low',
-        'Low severity issue'
-      );
+      const result = formatter.formatIssue('test.ts', 40, 'Low', 'Low severity issue');
       expect(result).toContain('test.ts:40');
       expect(result).toContain('[LOW]');
       expect(result).toContain('Low severity issue');
     });
 
     it('should format an issue with info severity', () => {
-      const result = formatter.formatIssue(
-        'test.ts',
-        50,
-        'Info',
-        'Info message'
-      );
+      const result = formatter.formatIssue('test.ts', 50, 'Info', 'Info message');
       expect(result).toContain('test.ts:50');
       expect(result).toContain('[INFO]');
       expect(result).toContain('Info message');
     });
 
     it('should format an issue with unknown severity', () => {
-      const result = formatter.formatIssue(
-        'test.ts',
-        60,
-        'Unknown',
-        'Unknown severity'
-      );
+      const result = formatter.formatIssue('test.ts', 60, 'Unknown', 'Unknown severity');
       expect(result).toContain('test.ts:60');
       expect(result).toContain('[UNKNOWN]');
       expect(result).toContain('Unknown severity');

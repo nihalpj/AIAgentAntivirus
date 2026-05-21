@@ -23,12 +23,13 @@ export class HTMLFormatter implements Formatter {
       [Severity.Low]: '#06b6d4',
       [Severity.Medium]: '#eab308',
       [Severity.High]: '#f97316',
-      [Severity.Critical]: '#ef4444'
+      [Severity.Critical]: '#ef4444',
     };
 
-    const resultsHTML = results.map(result => {
-      const color = severityColors[result.severity];
-      return `
+    const resultsHTML = results
+      .map((result) => {
+        const color = severityColors[result.severity];
+        return `
         <div class="result" style="border-left: 4px solid ${color}">
           <div class="result-header">
             <span class="category">${result.category}</span>
@@ -40,14 +41,16 @@ export class HTMLFormatter implements Formatter {
           ${result.suggestion ? `<div class="suggestion">💡 ${result.suggestion}</div>` : ''}
         </div>
       `;
-    }).join('');
+      })
+      .join('');
 
     const summaryHTML = Object.entries(summary.issuesBySeverity)
       .filter(([_, count]) => count > 0)
       .map(([severity, count]) => {
         const color = severityColors[severity as Severity];
         return `<li style="color: ${color}">${severity}: ${count}</li>`;
-      }).join('');
+      })
+      .join('');
 
     return `<!DOCTYPE html>
 <html>
@@ -90,9 +93,10 @@ export class HTMLFormatter implements Formatter {
       <ul>${summaryHTML}</ul>
     </div>
 
-    ${results.length === 0 ?
-      '<div class="no-results">✓ No security issues found!</div>' :
-      resultsHTML
+    ${
+      results.length === 0
+        ? '<div class="no-results">✓ No security issues found!</div>'
+        : resultsHTML
     }
   </div>
 </body>

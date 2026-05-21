@@ -59,9 +59,10 @@ export class OpenAIProvider implements LLMProvider {
       throw new Error('OpenAI API key not configured');
     }
 
-    const prompt = SCAN_PROMPT
-      .replace('{{filePath}}', filePath)
-      .replace('{{content}}', content.substring(0, 10000));
+    const prompt = SCAN_PROMPT.replace('{{filePath}}', filePath).replace(
+      '{{content}}',
+      content.substring(0, 10000)
+    );
 
     try {
       const response = await this.client.chat.completions.create({

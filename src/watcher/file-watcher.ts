@@ -24,7 +24,7 @@ export class FileWatcher extends EventEmitter {
       persistent: true,
       ignoreInitial: options.ignoreInitial ?? false,
       usePolling: options.usePolling ?? false,
-      interval: options.interval ?? 100
+      interval: options.interval ?? 100,
     });
 
     this.watcher

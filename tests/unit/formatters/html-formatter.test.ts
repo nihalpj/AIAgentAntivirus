@@ -35,16 +35,18 @@ describe('HTMLFormatter', () => {
 
   describe('escapeHtml', () => {
     it('should escape ampersands', () => {
-      const results: ScanResult[] = [{
-        id: 'test',
-        filePath: '/test.ts',
-        lineNumber: 1,
-        severity: Severity.Low,
-        category: ThreatCategory.Other,
-        description: 'Test',
-        evidence: 'a & b',
-        scannerType: ScannerType.Pattern,
-      }];
+      const results: ScanResult[] = [
+        {
+          id: 'test',
+          filePath: '/test.ts',
+          lineNumber: 1,
+          severity: Severity.Low,
+          category: ThreatCategory.Other,
+          description: 'Test',
+          evidence: 'a & b',
+          scannerType: ScannerType.Pattern,
+        },
+      ];
 
       const summary = {
         totalFilesScanned: 1,
@@ -66,16 +68,18 @@ describe('HTMLFormatter', () => {
     });
 
     it('should escape less than signs', () => {
-      const results: ScanResult[] = [{
-        id: 'test',
-        filePath: '/test.ts',
-        lineNumber: 1,
-        severity: Severity.Low,
-        category: ThreatCategory.Other,
-        description: 'Test',
-        evidence: 'if (a < b)',
-        scannerType: ScannerType.Pattern,
-      }];
+      const results: ScanResult[] = [
+        {
+          id: 'test',
+          filePath: '/test.ts',
+          lineNumber: 1,
+          severity: Severity.Low,
+          category: ThreatCategory.Other,
+          description: 'Test',
+          evidence: 'if (a < b)',
+          scannerType: ScannerType.Pattern,
+        },
+      ];
 
       const summary = {
         totalFilesScanned: 1,
@@ -97,16 +101,18 @@ describe('HTMLFormatter', () => {
     });
 
     it('should escape greater than signs', () => {
-      const results: ScanResult[] = [{
-        id: 'test',
-        filePath: '/test.ts',
-        lineNumber: 1,
-        severity: Severity.Low,
-        category: ThreatCategory.Other,
-        description: 'Test',
-        evidence: 'if (a > b)',
-        scannerType: ScannerType.Pattern,
-      }];
+      const results: ScanResult[] = [
+        {
+          id: 'test',
+          filePath: '/test.ts',
+          lineNumber: 1,
+          severity: Severity.Low,
+          category: ThreatCategory.Other,
+          description: 'Test',
+          evidence: 'if (a > b)',
+          scannerType: ScannerType.Pattern,
+        },
+      ];
 
       const summary = {
         totalFilesScanned: 1,
@@ -128,16 +134,18 @@ describe('HTMLFormatter', () => {
     });
 
     it('should escape double quotes', () => {
-      const results: ScanResult[] = [{
-        id: 'test',
-        filePath: '/test.ts',
-        lineNumber: 1,
-        severity: Severity.Low,
-        category: ThreatCategory.Other,
-        description: 'Test',
-        evidence: 'const x = "value"',
-        scannerType: ScannerType.Pattern,
-      }];
+      const results: ScanResult[] = [
+        {
+          id: 'test',
+          filePath: '/test.ts',
+          lineNumber: 1,
+          severity: Severity.Low,
+          category: ThreatCategory.Other,
+          description: 'Test',
+          evidence: 'const x = "value"',
+          scannerType: ScannerType.Pattern,
+        },
+      ];
 
       const summary = {
         totalFilesScanned: 1,
@@ -159,16 +167,18 @@ describe('HTMLFormatter', () => {
     });
 
     it('should escape single quotes', () => {
-      const results: ScanResult[] = [{
-        id: 'test',
-        filePath: '/test.ts',
-        lineNumber: 1,
-        severity: Severity.Low,
-        category: ThreatCategory.Other,
-        description: "Test",
-        evidence: "it's a test",
-        scannerType: ScannerType.Pattern,
-      }];
+      const results: ScanResult[] = [
+        {
+          id: 'test',
+          filePath: '/test.ts',
+          lineNumber: 1,
+          severity: Severity.Low,
+          category: ThreatCategory.Other,
+          description: 'Test',
+          evidence: "it's a test",
+          scannerType: ScannerType.Pattern,
+        },
+      ];
 
       const summary = {
         totalFilesScanned: 1,

@@ -150,9 +150,7 @@ describe('LLMScanner', () => {
     });
 
     it('should handle provider errors gracefully', async () => {
-      mockProvider.scan.mockRejectedValue(
-        new Error('API key not configured')
-      );
+      mockProvider.scan.mockRejectedValue(new Error('API key not configured'));
 
       scanner = new LLMScanner();
       const results = await scanner.scan('/test/file.js', 'content');

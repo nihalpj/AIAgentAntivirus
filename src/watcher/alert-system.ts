@@ -38,9 +38,9 @@ export class AlertSystem {
         method: this.config.webhookMethod || 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...this.config.webhookHeaders
+          ...this.config.webhookHeaders,
         },
-        body: JSON.stringify(alert)
+        body: JSON.stringify(alert),
       });
     } catch (error) {
       console.error(`Failed to send webhook: ${error}`);
@@ -48,7 +48,9 @@ export class AlertSystem {
   }
 
   private logAlert(alert: Alert): void {
-    console.log(`[ALERT] ${alert.timestamp.toISOString()} - ${alert.severity.toUpperCase()} - ${alert.filePath}`);
+    console.log(
+      `[ALERT] ${alert.timestamp.toISOString()} - ${alert.severity.toUpperCase()} - ${alert.filePath}`
+    );
     console.log(`  ${alert.category}: ${alert.description}`);
   }
 

@@ -11,7 +11,7 @@ export class Scheduler {
   schedule(name: string, cronExpression: string, callback: () => void, timezone?: string): void {
     const task = cron.schedule(cronExpression, () => callback(), {
       name,
-      timezone: timezone || 'UTC'
+      timezone: timezone || 'UTC',
     });
 
     this.tasks.set(name, task);

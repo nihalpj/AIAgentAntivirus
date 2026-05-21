@@ -6,7 +6,7 @@ jest.mock('fs-extra');
 const mockCwd = jest.fn();
 Object.defineProperty(process, 'cwd', {
   value: mockCwd,
-  writable: true
+  writable: true,
 });
 
 describe('FileWalker', () => {
@@ -21,7 +21,7 @@ describe('FileWalker', () => {
     it('should walk directory and return files', async () => {
       (fs.readdir as any).mockResolvedValue([
         { name: 'file1.js', isDirectory: () => false },
-        { name: 'file2.json', isDirectory: () => false }
+        { name: 'file2.json', isDirectory: () => false },
       ]);
       // FileFilter calls fs.stat for each file, then walkDirectory calls it again
       (fs.stat as any)
@@ -43,7 +43,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: 'node_modules', isDirectory: () => true }
+            { name: 'node_modules', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -67,9 +67,7 @@ describe('FileWalker', () => {
     });
 
     it('should use custom paths when provided', async () => {
-      (fs.readdir as any).mockResolvedValue([
-        { name: 'file.js', isDirectory: () => false }
-      ]);
+      (fs.readdir as any).mockResolvedValue([{ name: 'file.js', isDirectory: () => false }]);
       (fs.stat as any).mockResolvedValue({ size: 1000, isDirectory: () => false });
 
       walker = new FileWalker({ customPaths: ['/custom/path'] });
@@ -83,7 +81,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: '.git', isDirectory: () => true }
+            { name: '.git', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -102,7 +100,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: 'dist', isDirectory: () => true }
+            { name: 'dist', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -121,7 +119,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: 'build', isDirectory: () => true }
+            { name: 'build', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -140,7 +138,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: 'coverage', isDirectory: () => true }
+            { name: 'coverage', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -159,7 +157,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: '.next', isDirectory: () => true }
+            { name: '.next', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -178,7 +176,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: '.nuxt', isDirectory: () => true }
+            { name: '.nuxt', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -197,7 +195,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: 'target', isDirectory: () => true }
+            { name: 'target', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -216,7 +214,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: 'bin', isDirectory: () => true }
+            { name: 'bin', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -235,7 +233,7 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: 'obj', isDirectory: () => true }
+            { name: 'obj', isDirectory: () => true },
           ]);
         }
         return Promise.resolve([]);
@@ -254,13 +252,11 @@ describe('FileWalker', () => {
         if (dir === '/test/path') {
           return Promise.resolve([
             { name: 'file.js', isDirectory: () => false },
-            { name: 'src', isDirectory: () => true }
+            { name: 'src', isDirectory: () => true },
           ]);
         }
         if (dir === '/test/path/src') {
-          return Promise.resolve([
-            { name: 'nested.js', isDirectory: () => false }
-          ]);
+          return Promise.resolve([{ name: 'nested.js', isDirectory: () => false }]);
         }
         return Promise.resolve([]);
       });
@@ -270,14 +266,12 @@ describe('FileWalker', () => {
       const files = await walker.walk('/test/path');
 
       expect(files).toHaveLength(2);
-      expect(files.some(f => f.path.includes('file.js'))).toBe(true);
-      expect(files.some(f => f.path.includes('nested.js'))).toBe(true);
+      expect(files.some((f) => f.path.includes('file.js'))).toBe(true);
+      expect(files.some((f) => f.path.includes('nested.js'))).toBe(true);
     });
 
     it('should deduplicate files', async () => {
-      (fs.readdir as any).mockResolvedValue([
-        { name: 'file.js', isDirectory: () => false }
-      ]);
+      (fs.readdir as any).mockResolvedValue([{ name: 'file.js', isDirectory: () => false }]);
       (fs.stat as any).mockResolvedValue({ size: 1000, isDirectory: () => false });
 
       walker = new FileWalker();
@@ -289,9 +283,7 @@ describe('FileWalker', () => {
     });
 
     it('should include file size in FileEntry', async () => {
-      (fs.readdir as any).mockResolvedValue([
-        { name: 'file.js', isDirectory: () => false }
-      ]);
+      (fs.readdir as any).mockResolvedValue([{ name: 'file.js', isDirectory: () => false }]);
       (fs.stat as any).mockResolvedValue({ size: 1234, isDirectory: () => false });
 
       walker = new FileWalker();
@@ -302,9 +294,7 @@ describe('FileWalker', () => {
     });
 
     it('should include relative path in FileEntry', async () => {
-      (fs.readdir as any).mockResolvedValue([
-        { name: 'file.js', isDirectory: () => false }
-      ]);
+      (fs.readdir as any).mockResolvedValue([{ name: 'file.js', isDirectory: () => false }]);
       (fs.stat as any).mockResolvedValue({ size: 1000, isDirectory: () => false });
 
       walker = new FileWalker();

@@ -106,7 +106,9 @@ describe('SARIFFormatter', () => {
       const parsed = JSON.parse(output);
       expect(parsed.runs[0].tool.driver.name).toBe('aiav');
       expect(parsed.runs[0].tool.driver.version).toBe('0.0.1');
-      expect(parsed.runs[0].tool.driver.informationUri).toBe('https://github.com/anthropics/aiagentantivirus');
+      expect(parsed.runs[0].tool.driver.informationUri).toBe(
+        'https://github.com/anthropics/aiagentantivirus'
+      );
     });
 
     it('should include rules for each result', () => {
@@ -164,8 +166,9 @@ describe('SARIFFormatter', () => {
       const output = formatter.formatResults(mockResults, mockSummary);
       const parsed = JSON.parse(output);
       expect(parsed.runs[0].results[0].codeFlows).toBeDefined();
-      expect(parsed.runs[0].results[0].codeFlows[0].threadFlows[0].locations[0].location.message.text)
-        .toBe('eval(userInput)');
+      expect(
+        parsed.runs[0].results[0].codeFlows[0].threadFlows[0].locations[0].location.message.text
+      ).toBe('eval(userInput)');
     });
 
     it('should not include codeFlows when evidence is absent', () => {

@@ -49,9 +49,9 @@ describe('AnthropicProvider', () => {
 
   describe('scan', () => {
     it('should throw error when client is not configured', async () => {
-      await expect(
-        provider.scan('/test/file.js', 'const x = 1;')
-      ).rejects.toThrow('Anthropic API key not configured');
+      await expect(provider.scan('/test/file.js', 'const x = 1;')).rejects.toThrow(
+        'Anthropic API key not configured'
+      );
     });
 
     it('should return successful scan result', async () => {
@@ -119,9 +119,9 @@ describe('AnthropicProvider', () => {
 
       mockCreate.mockRejectedValue(new Error('API Error: Rate limit exceeded'));
 
-      await expect(
-        provider.scan('/test/file.js', 'const x = 1;')
-      ).rejects.toThrow('Anthropic scan failed');
+      await expect(provider.scan('/test/file.js', 'const x = 1;')).rejects.toThrow(
+        'Anthropic scan failed'
+      );
     });
 
     it('should handle non-text content type', async () => {

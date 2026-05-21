@@ -1,8 +1,4 @@
-import {
-  LLMMessage,
-  LLMResponse,
-  LLMProvider,
-} from '../../../src/llm/provider-interface';
+import { LLMMessage, LLMResponse, LLMProvider } from '../../../src/llm/provider-interface';
 
 describe('LLM Provider Interface', () => {
   describe('LLMMessage', () => {

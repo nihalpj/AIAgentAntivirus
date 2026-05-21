@@ -51,9 +51,9 @@ describe('OpenAIProvider', () => {
 
   describe('scan', () => {
     it('should throw error when client is not configured', async () => {
-      await expect(
-        provider.scan('/test/file.js', 'const x = 1;')
-      ).rejects.toThrow('OpenAI API key not configured');
+      await expect(provider.scan('/test/file.js', 'const x = 1;')).rejects.toThrow(
+        'OpenAI API key not configured'
+      );
     });
 
     it('should return successful scan result', async () => {
@@ -123,9 +123,9 @@ describe('OpenAIProvider', () => {
 
       mockCreate.mockRejectedValue(new Error('API Error: Rate limit exceeded'));
 
-      await expect(
-        provider.scan('/test/file.js', 'const x = 1;')
-      ).rejects.toThrow('OpenAI scan failed');
+      await expect(provider.scan('/test/file.js', 'const x = 1;')).rejects.toThrow(
+        'OpenAI scan failed'
+      );
     });
 
     it('should handle missing usage data', async () => {

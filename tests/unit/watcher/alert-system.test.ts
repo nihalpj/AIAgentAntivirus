@@ -27,7 +27,7 @@ describe('AlertSystem', () => {
         enabled: true,
         webhookUrl: 'https://example.com/webhook',
         webhookMethod: 'PUT',
-        webhookHeaders: { 'X-Custom': 'value' }
+        webhookHeaders: { 'X-Custom': 'value' },
       };
       const system = new AlertSystem(config);
       expect(system.isEnabled()).toBe(true);
@@ -41,7 +41,7 @@ describe('AlertSystem', () => {
         filePath: '/test/file.js',
         severity: 'high',
         category: 'test',
-        description: 'Test alert'
+        description: 'Test alert',
       };
 
       await alertSystem.sendAlert(alert);
@@ -56,7 +56,7 @@ describe('AlertSystem', () => {
         filePath: '/test/file.js',
         severity: 'high',
         category: 'test',
-        description: 'Test alert'
+        description: 'Test alert',
       };
 
       await alertSystem.sendAlert(alert);
@@ -71,14 +71,14 @@ describe('AlertSystem', () => {
       global.fetch = jest.fn(() =>
         Promise.resolve({
           ok: true,
-          json: () => Promise.resolve({ success: true })
+          json: () => Promise.resolve({ success: true }),
         } as Response)
       ) as jest.Mock;
 
       alertSystem.updateConfig({
         enabled: true,
         webhookUrl: 'https://example.com/webhook',
-        webhookMethod: 'POST'
+        webhookMethod: 'POST',
       });
 
       const alert: Alert = {
@@ -86,7 +86,7 @@ describe('AlertSystem', () => {
         filePath: '/test/file.js',
         severity: 'high',
         category: 'test',
-        description: 'Test alert'
+        description: 'Test alert',
       };
 
       await alertSystem.sendAlert(alert);
@@ -96,9 +96,9 @@ describe('AlertSystem', () => {
         expect.objectContaining({
           method: 'POST',
           headers: expect.objectContaining({
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           }),
-          body: expect.stringContaining('test')
+          body: expect.stringContaining('test'),
         })
       );
     });
@@ -107,7 +107,7 @@ describe('AlertSystem', () => {
       global.fetch = jest.fn(() =>
         Promise.resolve({
           ok: true,
-          json: () => Promise.resolve({ success: true })
+          json: () => Promise.resolve({ success: true }),
         } as Response)
       ) as jest.Mock;
 
@@ -115,9 +115,9 @@ describe('AlertSystem', () => {
         enabled: true,
         webhookUrl: 'https://example.com/webhook',
         webhookHeaders: {
-          'Authorization': 'Bearer token123',
-          'X-Custom': 'custom-value'
-        }
+          Authorization: 'Bearer token123',
+          'X-Custom': 'custom-value',
+        },
       });
 
       const alert: Alert = {
@@ -125,7 +125,7 @@ describe('AlertSystem', () => {
         filePath: '/test/file.js',
         severity: 'high',
         category: 'test',
-        description: 'Test alert'
+        description: 'Test alert',
       };
 
       await alertSystem.sendAlert(alert);
@@ -135,21 +135,19 @@ describe('AlertSystem', () => {
         expect.objectContaining({
           headers: expect.objectContaining({
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer token123',
-            'X-Custom': 'custom-value'
-          })
+            Authorization: 'Bearer token123',
+            'X-Custom': 'custom-value',
+          }),
         })
       );
     });
 
     it('should handle webhook errors gracefully', async () => {
-      global.fetch = jest.fn(() =>
-        Promise.reject(new Error('Network error'))
-      ) as jest.Mock;
+      global.fetch = jest.fn(() => Promise.reject(new Error('Network error'))) as jest.Mock;
 
       alertSystem.updateConfig({
         enabled: true,
-        webhookUrl: 'https://example.com/webhook'
+        webhookUrl: 'https://example.com/webhook',
       });
 
       const alert: Alert = {
@@ -157,28 +155,26 @@ describe('AlertSystem', () => {
         filePath: '/test/file.js',
         severity: 'high',
         category: 'test',
-        description: 'Test alert'
+        description: 'Test alert',
       };
 
       await alertSystem.sendAlert(alert);
 
-      expect(console.error).toHaveBeenCalledWith(
-        expect.stringContaining('Failed to send webhook')
-      );
+      expect(console.error).toHaveBeenCalledWith(expect.stringContaining('Failed to send webhook'));
     });
 
     it('should use PUT method when configured', async () => {
       global.fetch = jest.fn(() =>
         Promise.resolve({
           ok: true,
-          json: () => Promise.resolve({ success: true })
+          json: () => Promise.resolve({ success: true }),
         } as Response)
       ) as jest.Mock;
 
       alertSystem.updateConfig({
         enabled: true,
         webhookUrl: 'https://example.com/webhook',
-        webhookMethod: 'PUT'
+        webhookMethod: 'PUT',
       });
 
       const alert: Alert = {
@@ -186,7 +182,7 @@ describe('AlertSystem', () => {
         filePath: '/test/file.js',
         severity: 'high',
         category: 'test',
-        description: 'Test alert'
+        description: 'Test alert',
       };
 
       await alertSystem.sendAlert(alert);
@@ -194,7 +190,7 @@ describe('AlertSystem', () => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.any(String),
         expect.objectContaining({
-          method: 'PUT'
+          method: 'PUT',
         })
       );
     });

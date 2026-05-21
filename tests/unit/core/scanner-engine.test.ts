@@ -12,15 +12,17 @@ class MockScanner implements Scanner {
   }
 
   async scan(_filePath: string, _content: string): Promise<any[]> {
-    return [{
-      id: `mock-${Date.now()}`,
-      filePath: _filePath,
-      lineNumber: 1,
-      severity: Severity.Low,
-      category: ThreatCategory.Other,
-      description: 'Mock result',
-      scannerType: this.type
-    }];
+    return [
+      {
+        id: `mock-${Date.now()}`,
+        filePath: _filePath,
+        lineNumber: 1,
+        severity: Severity.Low,
+        category: ThreatCategory.Other,
+        description: 'Mock result',
+        scannerType: this.type,
+      },
+    ];
   }
 }
 
@@ -45,9 +47,7 @@ describe('ScannerEngine', () => {
       const scanner = new MockScanner(ScannerType.Pattern);
       engine.registerScanner(scanner);
 
-      const files = [
-        { path: '/test/file.js', content: 'test content' }
-      ];
+      const files = [{ path: '/test/file.js', content: 'test content' }];
 
       const result = await engine.scanFiles(files);
 
@@ -77,7 +77,7 @@ describe('ScannerEngine', () => {
       const files = [{ path: '/test/file.js', content: 'test' }];
 
       const result = await engine.scanFiles(files, {
-        enabledScanners: [ScannerType.Pattern]
+        enabledScanners: [ScannerType.Pattern],
       });
 
       expect(result.results).toHaveLength(1);
@@ -93,7 +93,7 @@ describe('ScannerEngine', () => {
 
       const files = [
         { path: '/test/file1.js', content: 'test1' },
-        { path: '/test/file2.js', content: 'test2' }
+        { path: '/test/file2.js', content: 'test2' },
       ];
 
       const result = await engine.scanFiles(files);

@@ -23,9 +23,9 @@ export class JSONFormatter implements Formatter {
         totalIssuesFound: summary.totalIssuesFound,
         issuesBySeverity: summary.issuesBySeverity,
         issuesByCategory: summary.issuesByCategory,
-        scanDurationMs: summary.scanDurationMs
+        scanDurationMs: summary.scanDurationMs,
       },
-      results: results.map(r => ({
+      results: results.map((r) => ({
         id: r.id,
         filePath: r.filePath,
         lineNumber: r.lineNumber,
@@ -34,8 +34,8 @@ export class JSONFormatter implements Formatter {
         description: r.description,
         evidence: r.evidence,
         suggestion: r.suggestion,
-        scannerType: r.scannerType
-      }))
+        scannerType: r.scannerType,
+      })),
     };
 
     return JSON.stringify(output, null, 2);
