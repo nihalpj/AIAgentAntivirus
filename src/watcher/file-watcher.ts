@@ -20,7 +20,7 @@ export class FileWatcher extends EventEmitter {
     }
 
     this.watcher = chokidar.watch(paths, {
-      ignored: /(^|[\/\\])\../,
+      ignored: /(^|[/\\])\../,
       persistent: true,
       ignoreInitial: options.ignoreInitial ?? false,
       usePolling: options.usePolling ?? false,
