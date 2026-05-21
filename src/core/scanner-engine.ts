@@ -10,10 +10,12 @@ export class ScannerEngine {
   private scanners: Map<ScannerType, Scanner> = new Map();
   private aggregator: ResultAggregator;
   private parallelism: number;
+  private enabledScanners?: ScannerType[];
 
   constructor(options: ScannerEngineOptions = {}) {
     this.aggregator = new ResultAggregator();
     this.parallelism = options.parallelism || 1;
+    this.enabledScanners = options.enabledScanners;
   }
 
   registerScanner(scanner: Scanner): void {
@@ -24,7 +26,7 @@ export class ScannerEngine {
     files: Array<{ path: string; content: string }>,
     options: ScannerEngineOptions = {}
   ): Promise<{ results: ScanResult[]; exitCode: number }> {
-    const enabledTypes = options.enabledScanners || Array.from(this.scanners.keys());
+    const enabledTypes = options.enabledScanners || this.enabledScanners || Array.from(this.scanners.keys());
     const filesToScan = files.filter(f => f);
 
     await this.processFiles(filesToScan, enabledTypes);
@@ -44,7 +46,7 @@ export class ScannerEngine {
         await this.scanFile(file, enabledTypes);
       }
     } else {
-      const chunks = this.chunkArray(files, this.parallelism);
+      const chunks = this.chunkArray(files, Math.ceil(files.length / this.parallelism));
       await Promise.all(
         chunks.map(chunk => this.processChunk(chunk, enabledTypes))
       );
