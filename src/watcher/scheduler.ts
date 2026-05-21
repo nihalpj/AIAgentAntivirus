@@ -9,6 +9,12 @@ export class Scheduler {
   private tasks: Map<string, ScheduledTask> = new Map();
 
   schedule(name: string, cronExpression: string, callback: () => void, timezone?: string): void {
+    // Stop existing task with the same name if it exists
+    const existingTask = this.tasks.get(name);
+    if (existingTask) {
+      existingTask.stop();
+    }
+
     const task = cron.schedule(cronExpression, () => callback(), {
       name,
       timezone: timezone || 'UTC',

@@ -43,7 +43,7 @@ export class AlertSystem {
         body: JSON.stringify(alert),
       });
     } catch (error) {
-      console.error(`Failed to send webhook: ${error}`);
+      console.error('Failed to send webhook:', error instanceof Error ? error : String(error));
     }
   }
 

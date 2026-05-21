@@ -177,8 +177,9 @@ export const watchCommand = new Command('watch')
     });
 
     // Set up scheduler if specified
+    let scheduler: Scheduler | undefined;
     if (options.schedule) {
-      const scheduler = new Scheduler();
+      scheduler = new Scheduler();
       console.log(`⏰ Scheduled scans: ${options.schedule}`);
       scheduler.schedule('main', options.schedule, async () => {
         console.log('\n⏰ Running scheduled scan...');
@@ -192,6 +193,9 @@ export const watchCommand = new Command('watch')
     const cleanup = () => {
       console.log('\n🛑 Stopping watch mode...');
       watcher.stop();
+      if (scheduler) {
+        scheduler.stopAll();
+      }
       process.exit(0);
     };
 

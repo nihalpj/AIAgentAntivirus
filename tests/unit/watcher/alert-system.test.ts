@@ -160,7 +160,7 @@ describe('AlertSystem', () => {
 
       await alertSystem.sendAlert(alert);
 
-      expect(console.error).toHaveBeenCalledWith(expect.stringContaining('Failed to send webhook'));
+      expect(console.error).toHaveBeenCalledWith('Failed to send webhook:', expect.any(Error));
     });
 
     it('should use PUT method when configured', async () => {
