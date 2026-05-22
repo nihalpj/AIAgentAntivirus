@@ -166,7 +166,7 @@ export const DEFAULT_PATTERNS: PatternRule[] = [
     name: 'OAuth Token',
     category: ThreatCategory.HardcodedSecret,
     severity: Severity.High,
-    pattern: /(?:oauth|access_token|refresh_token)['"\s]*[:=]['"\s]*[a-zA-Z0-9\-._~+/]{30,}/i,
+    pattern: /(?:oauth[_-]?token|access[_-]?token|refresh[_-]?token)['"\s]*[:=]['"\s]*[a-zA-Z0-9\-._~+/]{30,}/i,
     description: 'OAuth token detected',
     suggestion: 'Implement proper OAuth flows with token rotation',
   },
